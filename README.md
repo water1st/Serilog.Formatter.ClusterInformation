@@ -1,7 +1,7 @@
 # Serilog.Formatter.ClusterInformation
 
 ### Getting started
-To use the clusterInformation formatter, first install the [NuGet package](https://www.nuget.org/packages/Serilog.Formatter.ClusterInformation/):
+To use the cluster information formatter, first install the [NuGet package](https://www.nuget.org/packages/Serilog.Formatter.ClusterInformation/):
 
 ```powershell
 Install-Package Serilog.Formatter.ClusterInformation
