@@ -73,7 +73,7 @@ or code
 ```csharp
 services.AddSerilog(configuration,options=>{
     options.ApplicationName = configuration["app1"];
-    options.ContainerId = configuration["HOST_NAME"];
+    options.ContainerId = Environment.GetEnvironmentVariable("HOSTNAME", EnvironmentVariableTarget.Process);
     options.Host = configuration["Host"];
     options.Environment = configuration["ASPNETCORE_ENVIRONMENT"];
     options.Version = configuration["Version"];
