@@ -65,7 +65,7 @@ namespace Serilog.Formatter.ClusterInformation.Formatters
 
         private string GetExceptionData(IDictionary dictionary)
         {
-            if (dictionary == null)
+            if (dictionary == null || dictionary.Count == 0)
                 return "null";
 
             var stringBuilder = new StringBuilder();
