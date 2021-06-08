@@ -17,14 +17,23 @@ namespace Serilog.Formatter.ClusterInformation.Formatters
         {
             output.Write('{');
             WriteQuotedValueJson("Timestamp", logEvent.Timestamp.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffff zzz"), output);
+            output.Write(',');
             WriteQuotedValueJson("Level", logEvent.Level.ToString(), output);
+            output.Write(',');
             WriteJson("ApplicationName", logEvent.Properties["ApplicationName"]?.ToString(), output);
+            output.Write(',');
             WriteJson("Host", logEvent.Properties["Host"]?.ToString(), output);
+            output.Write(',');
             WriteJson("ContainerId", logEvent.Properties["ContainerId"]?.ToString(), output);
+            output.Write(',');
             WriteJson("Environment", logEvent.Properties["Environment"]?.ToString(), output);
+            output.Write(',');
             WriteJson("Source", logEvent.Properties["SourceContext"]?.ToString(), output);
+            output.Write(',');
             WriteJson("Version", logEvent.Properties["Version"]?.ToString(), output);
+            output.Write(',');
             WriteQuotedValueJson("Message", logEvent.MessageTemplate.Render(logEvent.Properties), output);
+            output.Write(',');
             WriteJson("Exception", GetExceptionInfo(logEvent.Exception), output);
             output.Write('}');
         }
@@ -39,9 +48,13 @@ namespace Serilog.Formatter.ClusterInformation.Formatters
             {
                 stringWriter.Write('{');
                 WriteQuotedValueJson(nameof(exception.Message), exception.Message, stringWriter);
+                stringWriter.Write(',');
                 WriteQuotedValueJson(nameof(exception.Source), exception.Source, stringWriter);
+                stringWriter.Write(',');
                 WriteQuotedValueJson(nameof(exception.StackTrace), exception.StackTrace, stringWriter);
+                stringWriter.Write(',');
                 WriteJson(nameof(exception.Data), GetExceptionData(exception.Data), stringWriter);
+                stringWriter.Write(',');
                 WriteJson(nameof(exception.InnerException), GetExceptionInfo(exception.InnerException), stringWriter);
                 stringWriter.Write('}');
             }
@@ -59,10 +72,15 @@ namespace Serilog.Formatter.ClusterInformation.Formatters
             using (var stringWriter = new StringWriter(stringBuilder))
             {
                 stringWriter.Write('{');
+                bool needComma = false;
                 foreach (var key in dictionary.Keys)
                 {
+                    if (needComma)
+                        stringWriter.Write(',');
+
                     var value = dictionary[key];
                     WriteQuotedValueJson(key.ToString(), value.ToString(), stringWriter);
+                    needComma = true;
                 }
                 stringWriter.Write('}');
             }
