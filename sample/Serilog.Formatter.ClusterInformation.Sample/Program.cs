@@ -21,8 +21,8 @@ namespace Serilog.Formatter.ClusterInformation.Sample
             var logger = provider.GetService<ILogger<Program>>();
 
             var err1 = new ArgumentException("Critical Exception");
-            var err2 = new ArgumentNullException("Error Exception");
-            var err3 = new ApplicationException("Warning Exception");
+            var err2 = new ArgumentNullException("Error Exception", err1);
+            var err3 = new ApplicationException("Warning Exception", err2);
 
             while (true)
             {
