@@ -9,14 +9,18 @@ Install-Package Serilog.Formatter.ClusterInformation
 Next, install http and console provider or you can install other provider if you need
 
 ```powershell
-Install-Package Serilog.Sinks.Http
+Install-Package Serilog.Sinks.Http.Formatters.Extension
 Install-Package Serilog.Sinks.Console
 ```
 
 Next, register to IServiceCollection
 ```csharp
 services.AddSerilog(builder => {
-    builder.LoggerConfiguration.WriteTo.Http(requestUri: "http://localhost:8080",batchPostingLimit: 1,textFormatter: Serilog.Formatter.ClusterInformation.Formatters.ClusterInformationFormatter.Instance);
+    builder.LoggerConfiguration.WriteTo.Http(
+    requestUri: "http://localhost:8080",
+    batchPostingLimit: 1,
+    textFormatter: Serilog.Formatter.ClusterInformation.Formatters.ClusterInformationFormatter.Instance, 
+    batchFormatter: Serilog.Sinks.Http.BatchFormatters.SingleLogBatchFormatter.Instance);
     builder.LoggerConfiguration.WriteTo.Console();
 
     builder.LogOptions.ApplicationName="app1";
@@ -46,7 +50,8 @@ Add the cluster information to appsettings.json
         "Args": {
           "requestUri": "http://localhost:8080",
           "batchPostingLimit": "1",
-          "textFormatter": "Serilog.Formatter.ClusterInformation.Formatters.ClusterInformationFormatter::Instance, Serilog.Formatter.ClusterInformation"
+          "textFormatter": "Serilog.Formatter.ClusterInformation.Formatters.ClusterInformationFormatter::Instance, Serilog.Formatter.ClusterInformation",
+          "batchFormatter": "Serilog.Sinks.Http.BatchFormatters.SingleLogBatchFormatter::Instance, Serilog.Sinks.Http.Formatters.Extension"
         }
       },
       { "Name": "Console" }
