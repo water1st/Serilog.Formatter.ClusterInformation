@@ -16,7 +16,7 @@ namespace Serilog.Formatter.ClusterInformation.Formatters
         public void Format(LogEvent logEvent, TextWriter output)
         {
             output.Write('{');
-            WriteQuotedValueJson("Timestamp", logEvent.Timestamp.LocalDateTime.ToString("yyyy-MM-dd HH:mm:ss.ffff zzz"), output);
+            WriteQuotedValueJson("Timestamp", logEvent.Timestamp.LocalDateTime.ToString("O"), output);
             output.Write(',');
             WriteQuotedValueJson("Level", logEvent.Level.ToString(), output);
             output.Write(',');
