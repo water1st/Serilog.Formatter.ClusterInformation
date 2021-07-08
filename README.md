@@ -76,10 +76,10 @@ Serilog__ClusterInformation__Version=1.0
 ```
 or code
 ```csharp
-services.AddSerilog(configuration,options=>{
+services.AddSerilog(configuration,(options,hostInfo)=>{
     options.ApplicationName = configuration["app1"];
-    options.ContainerId = Environment.GetEnvironmentVariable("HOSTNAME", EnvironmentVariableTarget.Process);
-    options.Host = configuration["Host"];
+    options.ContainerId = hostInfo.GetContainerID();
+    options.Host = hostInfo.GetCurrentHost();
     options.Environment = configuration["ASPNETCORE_ENVIRONMENT"];
     options.Version = configuration["Version"];
 });

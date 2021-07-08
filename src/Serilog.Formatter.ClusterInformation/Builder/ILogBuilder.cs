@@ -4,5 +4,6 @@
     {
         LoggerConfiguration LoggerConfiguration { get; }
         ClusterInformation LogOptions { get; }
+        IHostInfo HostInfo { get; }
     }
 }

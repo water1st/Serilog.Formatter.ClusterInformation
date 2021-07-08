@@ -12,7 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddLogging(logBuilder =>
             {
-                var builder = new LogBuilder();
+                var hostInfo = new HostInfo();
+                var builder = new LogBuilder(hostInfo);
                 config(builder);
                 builder.LoggerConfiguration
                 .Enrich.WithProperty(nameof(builder.LogOptions.ApplicationName), builder.LogOptions.ApplicationName)
@@ -29,21 +30,22 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddSerilog(this IServiceCollection services, IConfiguration configuration, Action<ClusterInformation> config = null)
+        public static IServiceCollection AddSerilog(this IServiceCollection services, IConfiguration configuration, Action<ClusterInformation, IHostInfo> config = null)
         {
             services.AddLogging(logBuilder =>
             {
 
                 var options = new ClusterInformation();
-                if(config != null)
+                var hostInfo = new HostInfo();
+                if (config != null)
                 {
-                    config(options);
+                    config(options, hostInfo);
                 }
                 else
                 {
                     configuration.GetSection("Serilog:ClusterInformation").Bind(options);
                 }
-                
+
 
                 var logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(configuration)
